@@ -36,12 +36,12 @@ def save_topic_to_file(topic, max_num, file_name):
     filtered_stream = twitter_stream.statuses.filter(track=topic, language='en')
     data = []
     for tweet in filtered_stream:
+        if max_num <= 0:
+            break
         data.append(tweet)
         max_num -= 1
-        if max_num < 0:
-            break
     save_to_file(file_name, data)
 
 
 topic = 'Donald Trump,Barack Obama'
-save_topic_to_file(topic, 10, 'problem-1.json')
+save_topic_to_file(topic, 1, 'problem-1.json')
