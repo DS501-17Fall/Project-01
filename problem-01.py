@@ -1,6 +1,7 @@
 import json
 
 import twitter
+import os
 
 
 # ---------------------------------------------
@@ -35,13 +36,20 @@ def save_topic_to_file(topic, max_num, file_name):
     twitter_stream = twitter.TwitterStream(auth=oauth_login().auth)
     filtered_stream = twitter_stream.statuses.filter(track=topic, language='en')
     data = []
-    for tweet in filtered_stream:
-        if max_num <= 0:
-            break
-        data.append(tweet)
-        max_num -= 1
-    save_to_file(file_name, data)
+    count = 0
+    try:
+        for tweet in filtered_stream:
+            if max_num <= 0:
+                break
+            data.append(tweet)
+            max_num -= 1
+            count += 1
+            os.system('cls' if os.name == 'nt' else 'clear')
+            print(count)
+    finally:
+        print('Gathered ' + str(count) + ' tweets')
+        save_to_file(file_name, data)
 
 
-topic = 'Donald Trump,Barack Obama'
-save_topic_to_file(topic, 1, 'problem-1.json')
+topic = 'Donald Trump'
+save_topic_to_file(topic, 500, 'problem-1.json')
