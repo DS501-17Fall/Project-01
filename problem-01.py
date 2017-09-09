@@ -51,5 +51,5 @@ def save_topic_to_file(topic, max_num, file_name):
         save_to_file(file_name, data)
 
 
-topic = 'Donald Trump'
-save_topic_to_file(topic, 500, 'problem-1.json')
+topic = 'vr'
+save_topic_to_file(topic, 200, 'problem-1.json')

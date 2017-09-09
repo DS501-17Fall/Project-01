@@ -23,7 +23,8 @@ sorted_list = reversed(sorted(frequency_dict.items(), key=operator.itemgetter(1)
 count = 0
 for item in sorted_list:
     print('Top ' + str(count + 1) + '\t' + str(item[1]) + ' times')
-    print(id_text_dict[item[0]] + '\n')
+    print(id_text_dict[item[0]])
+    print('Link: https://twitter.com/i/web/status/' + str(item[0]) + '\n')
     count += 1
     if count == 10:
         break

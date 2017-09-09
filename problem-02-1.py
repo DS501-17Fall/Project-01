@@ -5,7 +5,7 @@ import operator
 def word_filter(word):
     skipping_words = ['rt', 'the', 'to', 'of', 'is', 'and', 'a', 'for', 'at', 'that', 'you',
                       'on', 'in', 'i', 'be', 'more', 'this', 'are', 'with', 'his', 'over', 'but', 'it',
-                      'by', 'up', 'from', 'about', 'the', 'if', 'what', 'just', 'or', 'and']
+                      'by', 'up', 'from', 'about', 'the', 'if', 'what', 'just', 'or', 'and','amp','me','be','than','as']
     if word in skipping_words:
         return False
     elif ord(word[0]) > 255:
@@ -49,6 +49,8 @@ with open("problem-1.json", mode='r') as f:
 # A list of words which appear in the tweets
 word_list = []
 for data in whole_data:
+    if 'text' not in data:
+        continue
     word_list += data['text'].split()
 
 # A dictionary of words frequency, key is word, value is appearing times
@@ -70,5 +72,5 @@ count = 0
 for item in sorted_list:
     print('Top ' + '{:4}'.format(str(count + 1)) + '{:25}'.format(item[0]) + ' ' + str(item[1]) + ' times')
     count = count + 1
-    if count == 30:
+    if count == 50:
         break
