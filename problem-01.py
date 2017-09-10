@@ -2,6 +2,7 @@ import json
 
 import twitter
 import os
+from time import sleep
 
 
 # ---------------------------------------------
@@ -32,24 +33,26 @@ def save_to_file(file_name, data):
 
 
 # Define a function to save at most max_num of tweets in some topic to a file
-def save_topic_to_file(topic, max_num, file_name):
+def save_topic_to_file(topic, max_num, directory):
     twitter_stream = twitter.TwitterStream(auth=oauth_login().auth)
     filtered_stream = twitter_stream.statuses.filter(track=topic, language='en')
-    data = []
-    count = 0
-    try:
+    count = 1
+    while True:
+        data = []
         for tweet in filtered_stream:
             if max_num <= 0:
-                break
+                print('Gathered ' + str((count-1) * 50+len(data)) + ' tweets')
+                save_to_file(directory + 'part-' + str(count) + '.json', data)
+                return
             data.append(tweet)
             max_num -= 1
-            count += 1
-            os.system('cls' if os.name == 'nt' else 'clear')
-            print(count)
-    finally:
-        print('Gathered ' + str(count) + ' tweets')
-        save_to_file(file_name, data)
+            if len(data) == 50:
+                save_to_file(directory + 'part-' + str(count)+'.json', data)
+                break
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print('Gathered ' + str(count*50) + ' tweets')
+        count += 1
 
 
-topic = 'vr'
-save_topic_to_file(topic, 200, 'problem-1.json')
+topic = 'trump'
+save_topic_to_file(topic, 500, 'data/')

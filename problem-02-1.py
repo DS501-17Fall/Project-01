@@ -1,11 +1,13 @@
 import json
 import operator
+import os
 
 
 def word_filter(word):
     skipping_words = ['rt', 'the', 'to', 'of', 'is', 'and', 'a', 'for', 'at', 'that', 'you',
                       'on', 'in', 'i', 'be', 'more', 'this', 'are', 'with', 'his', 'over', 'but', 'it',
-                      'by', 'up', 'from', 'about', 'the', 'if', 'what', 'just', 'or', 'and','amp','me','be','than','as']
+                      'by', 'up', 'from', 'about', 'the', 'if', 'what', 'just', 'or', 'and', 'amp', 'me', 'be', 'than',
+                      'as']
     if word in skipping_words:
         return False
     elif ord(word[0]) > 255:
@@ -43,8 +45,10 @@ def word_trim(word):
 
 # A list of all the tweets collected.
 whole_data = []
-with open("problem-1.json", mode='r') as f:
-    whole_data = json.load(f)
+path = './data'
+for filename in os.listdir(path):
+    with open(path + '/' + filename, mode='r') as f:
+        whole_data += json.load(f)
 
 # A list of words which appear in the tweets
 word_list = []

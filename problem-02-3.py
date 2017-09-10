@@ -1,13 +1,20 @@
 import json
 import operator
+import os
 
 # A list of all the tweets collected.
 whole_data = []
-with open("problem-1.json", mode='r') as f:
-    whole_data = json.load(f)
+path = './data'
+for filename in os.listdir(path):
+    with open(path + '/' + filename, mode='r') as f:
+        whole_data += json.load(f)
 
 frequency_dict = {}
 for twitter in whole_data:
+    if 'entities' not in twitter:
+        continue
+    if 'hashtags' not in twitter['entites']:
+        continue
     tags = twitter['entities']['hashtags']
     if len(tags) == 0:
         continue
