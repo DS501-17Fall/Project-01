@@ -2,10 +2,8 @@ import json
 
 import twitter
 import os
-from time import sleep
 
 
-# ---------------------------------------------
 # Define a Function to Login Twitter API
 def oauth_login():
     # Go to http://twitter.com/apps/new to create an app and get values
@@ -34,6 +32,8 @@ def save_to_file(file_name, data):
 
 # Define a function to save at most max_num of tweets in some topic to a file
 def save_topic_to_file(topic, max_num, directory):
+    if not os.path.exists('./' + directory):
+        os.makedirs('./' + directory)
     twitter_stream = twitter.TwitterStream(auth=oauth_login().auth)
     filtered_stream = twitter_stream.statuses.filter(track=topic, language='en')
     count = 1
@@ -41,18 +41,18 @@ def save_topic_to_file(topic, max_num, directory):
         data = []
         for tweet in filtered_stream:
             if max_num <= 0:
-                print('Gathered ' + str((count-1) * 50+len(data)) + ' tweets')
-                save_to_file(directory + 'part-' + str(count) + '.json', data)
+                if len(data) > 0:
+                    print('Gathered ' + str((count - 1) * 50 + len(data)) + ' tweets')
+                    save_to_file(directory + '/part-' + str(count) + '.json', data)
                 return
             data.append(tweet)
             max_num -= 1
             if len(data) == 50:
-                save_to_file(directory + 'part-' + str(count)+'.json', data)
+                save_to_file(directory + '/part-' + str(count) + '.json', data)
                 break
-        os.system('cls' if os.name == 'nt' else 'clear')
-        print('Gathered ' + str(count*50) + ' tweets')
+        print('Gathered ' + str(count * 50) + ' tweets')
         count += 1
 
 
 topic = 'trump'
-save_topic_to_file(topic, 500, 'data/')
+save_topic_to_file(topic, 500, 'data')
