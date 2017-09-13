@@ -1,6 +1,7 @@
 import json
 import operator
 import os
+from prettytable import PrettyTable
 
 
 def get_top_tags(path, max_num):
@@ -10,7 +11,7 @@ def get_top_tags(path, max_num):
     for filename in os.listdir(path):
         with open(path + '/' + filename, mode='r') as f:
             whole_data += json.load(f)
-
+    # A dictionary of tag frequency, key is tag, value is frequency
     frequency_dict = {}
     for twitter in whole_data:
         if 'entities' not in twitter:
@@ -25,15 +26,17 @@ def get_top_tags(path, max_num):
                 frequency_dict[tag['text']] = frequency_dict[tag['text']] + 1
             else:
                 frequency_dict[tag['text']] = 1
-
+    # A list of tuples (word, frequency), sorted by the frequency
     sorted_list = reversed(sorted(frequency_dict.items(), key=operator.itemgetter(1)))
-
+    # Print top tags
     count = 0
+    table = PrettyTable(['Rank', 'Hashtag', 'Times'])
     for item in sorted_list:
-        print('Top ' + '{:4}'.format(str(count + 1)) + '{:25}'.format(item[0]) + ' ' + str(item[1]) + ' times')
+        table.add_row([str(count + 1), item[0], item[1]])
         count = count + 1
         if count == max_num:
             break
+    print(table)
 
 
 get_top_tags('data', 10)

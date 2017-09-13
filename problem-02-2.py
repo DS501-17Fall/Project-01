@@ -3,6 +3,7 @@ import operator
 import os
 
 
+# Define a function to get top retweets
 def get_top_retweets(path, max_num):
     # A list of all the tweets collected.
     whole_data = []
@@ -10,7 +11,7 @@ def get_top_retweets(path, max_num):
     for filename in os.listdir(path):
         with open(path + '/' + filename, mode='r') as f:
             whole_data += json.load(f)
-
+    # id_text_dict to store twitter ID and twitter text, and frequency_dict to store twitter ID and frequency
     id_text_dict = {}
     frequency_dict = {}
     for twitter in whole_data:
@@ -22,9 +23,9 @@ def get_top_retweets(path, max_num):
             frequency_dict[retweet_dict['id']] = frequency_dict[retweet_dict['id']] + 1
         else:
             frequency_dict[retweet_dict['id']] = 1
-
+    # A list of tuples (word, frequency), sorted by the frequency
     sorted_list = reversed(sorted(frequency_dict.items(), key=operator.itemgetter(1)))
-
+    # Print top retweets
     count = 0
     for item in sorted_list:
         print('Top ' + str(count + 1) + '\t' + str(item[1]) + ' times')

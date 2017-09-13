@@ -1,13 +1,30 @@
 import json
 import operator
 import os
+from prettytable import PrettyTable
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud, STOPWORDS
 
 
 def word_filter(word):
-    skipping_words = ['rt', 'the', 'to', 'of', 'is', 'and', 'a', 'for', 'at', 'that', 'you',
-                      'on', 'in', 'i', 'be', 'more', 'this', 'are', 'with', 'his', 'over', 'but', 'it',
-                      'by', 'up', 'from', 'about', 'the', 'if', 'what', 'just', 'or', 'and', 'amp', 'me', 'be', 'than',
-                      'as']
+    skipping_words = ['rt', 'amp', 'ourselves', 'hers', 'between', 'yourself', 'but', 'again', 'there', 'about', 'once',
+                      'during', 'out', 'very',
+                      'having', 'with', 'they', 'own', 'an', 'be', 'some', 'for', 'do', 'its', 'yours', 'such', 'into',
+                      'of', 'most',
+                      'itself', 'other', 'off', 'is', 's', 'am', 'or', 'who', 'as', 'from', 'him', 'each', 'the',
+                      'themselves',
+                      'until', 'below', 'are', 'we', 'these', 'your', 'his', 'through', 'don', 'nor', 'me', 'were',
+                      'her', 'more',
+                      'himself', 'this', 'down', 'should', 'our', 'their', 'while', 'above', 'both', 'up', 'to', 'ours',
+                      'had',
+                      'she', 'all', 'no', 'when', 'at', 'any', 'before', 'them', 'same', 'and', 'been', 'have', 'in',
+                      'will', 'on',
+                      'does', 'yourselves', 'then', 'that', 'because', 'what', 'over', 'why', 'so', 'can', 'did', 'not',
+                      'now',
+                      'under', 'he', 'you', 'herself', 'has', 'just', 'where', 'too', 'only', 'myself', 'which',
+                      'those', 'i',
+                      'after', 'few', 'whom', 't', 'being', 'if', 'theirs', 'my', 'a', 'by', 'doing', 'it', 'how',
+                      'was', 'here', 'than', 'us']
     if word in skipping_words:
         return False
     elif ord(word[0]) > 255:
@@ -42,6 +59,7 @@ def word_trim(word):
     else:
         return word[start:end + 1]
 
+
 # Define a function to get top words
 def get_top_words(path, max_num):
     # A list of all the tweets collected.
@@ -56,7 +74,7 @@ def get_top_words(path, max_num):
         if 'text' not in data:
             continue
         word_list += data['text'].split()
-    # A dictionary of words frequency, key is word, value is appearing times
+    # A dictionary of words frequency, key is word, value is frequency
     frequency_dict = {}
     for word in word_list:
         word = word_trim(word)
@@ -68,13 +86,23 @@ def get_top_words(path, max_num):
                 frequency_dict[word] = 1
     # A list of tuples (word, frequency), sorted by the frequency
     sorted_list = reversed(sorted(frequency_dict.items(), key=operator.itemgetter(1)))
-    # Print top 30
+    # Print top table
     count = 0
+    table = PrettyTable(['Rank', 'Word', 'Times'])
     for item in sorted_list:
-        print('Top ' + '{:4}'.format(str(count + 1)) + '{:25}'.format(item[0]) + ' ' + str(item[1]) + ' times')
+        table.add_row([str(count + 1), item[0], item[1]])
         count = count + 1
         if count == max_num:
             break
+    print(table)
+    # Generate word map
+    wordcloud = WordCloud(background_color="white", stopwords=STOPWORDS, width=800, height=400)
+    wordcloud.generate_from_frequencies(frequencies=frequency_dict)
+    wordcloud.to_file('problem-02-1.png')
+    plt.figure()
+    plt.imshow(wordcloud, interpolation="bilinear")
+    plt.axis("off")
+    plt.show()
 
 
 get_top_words('data', 30)
