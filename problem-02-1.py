@@ -98,11 +98,13 @@ def get_top_words(path, max_num):
     # Generate word map
     wordcloud = WordCloud(background_color="white", stopwords=STOPWORDS, width=800, height=400)
     wordcloud.generate_from_frequencies(frequencies=frequency_dict)
-    wordcloud.to_file('problem-02-1.png')
+    wordcloud.to_file(path + '.png')
     plt.figure()
     plt.imshow(wordcloud, interpolation="bilinear")
     plt.axis("off")
     plt.show()
 
 
-get_top_words('data', 30)
+# get_top_words('p1-data', 30)
+
+get_top_words('p4-search', 30)

@@ -39,4 +39,4 @@ def get_top_tags(path, max_num):
     print(table)
 
 
-get_top_tags('data', 10)
+get_top_tags('p1-data', 10)

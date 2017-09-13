@@ -36,4 +36,4 @@ def get_top_retweets(path, max_num):
             break
 
 
-get_top_retweets('data', 10)
+get_top_retweets('p1-data', 10)
