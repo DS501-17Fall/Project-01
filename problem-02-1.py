@@ -105,6 +105,4 @@ def get_top_words(path, max_num):
     plt.show()
 
 
-# get_top_words('p1-data', 30)
-
-get_top_words('p4-search', 30)
+get_top_words('p4-data', 30)

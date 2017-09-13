@@ -42,5 +42,5 @@ def save_search_to_file(topic, max_num, path):
         save_to_file(path + '/' + str(uuid4()) + '.json', search_result['statuses'])
 
 
-topic = 'Trump'
-save_search_to_file(topic, 1100, 'p4-search')
+topic = 'Ferrari'
+save_search_to_file(topic, 1100, 'p4-data')

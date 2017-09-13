@@ -1,5 +1,4 @@
 import twitter
-import json
 from prettytable import PrettyTable
 
 
