@@ -17,10 +17,14 @@ friends = twitter_api.friends.ids(screen_name='LucaMWayne')
 friend_list = []
 for id in friends['ids']:
     friend_list.append((id, twitter_api.users.lookup(user_id=id)[0]['screen_name']))
+count = 0
 friend_table = PrettyTable(['id', 'screen_name'])
 for row in friend_list:
     friend_table.add_row(row)
-print('Friend Table')
+    count += 1
+    if count == 20:
+        break
+print('20 of Friends ')
 print(friend_table)
 
 followers = twitter_api.followers.ids(screen_name='LucaMWayne')
@@ -28,9 +32,13 @@ follower_list = []
 for id in followers['ids']:
     follower_list.append((id, twitter_api.users.lookup(user_id=id)[0]['screen_name']))
 follower_table = PrettyTable(['id', 'screen_name'])
+count = 0
 for row in follower_list:
     follower_table.add_row(row)
-print('Follower Table')
+    count += 1
+    if count == 20:
+        break
+print('\n20 of Followers')
 print(follower_table)
 
 mutual_list = []
@@ -40,5 +48,5 @@ for item in friend_list:
 mutual_table = PrettyTable(['id', 'screen_name'])
 for row in mutual_list:
     mutual_table.add_row(row)
-print('Mutual Table')
+print('\nMutual Table')
 print(mutual_table)

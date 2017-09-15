@@ -1,0 +1,1 @@
+print(len('When is Trump going to apologize for calling President Obama a "racist" and lying about his birth certificate for 5… https://t.co/Tzs'))

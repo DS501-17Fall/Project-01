@@ -1,10 +1,9 @@
-import json
-import twitter
 import os
 from uuid import uuid4
+import json
+import twitter
 
 
-# Define a Function to Login Twitter API
 def oauth_login():
     CONSUMER_KEY = 'THNn3A8S9iEVVoxwujipnwvnt'
     CONSUMER_SECRET = 'cyBdLmR8GpychGE69Co1x1Uw1sgsrs00Yyeye8YipuUBtw4Fsq'
@@ -33,7 +32,6 @@ def save_topic_to_file(topic, max_num, directory):
             data = []
             for tweet in filtered_stream:
                 if max_num <= 0 < len(data):
-                    print('Gathered ' + str((count - 1) * 50 + len(data)) + ' tweets')
                     save_to_file(directory + '/' + str(uuid4()) + '.json', data)
                     return
                 data.append(tweet)
@@ -46,5 +44,4 @@ def save_topic_to_file(topic, max_num, directory):
             count += 1
 
 
-topic = 'trump'
-save_topic_to_file(topic, 50000, 'p1-data')
+save_topic_to_file(topic='trump', max_num=50, directory='p1-data')
