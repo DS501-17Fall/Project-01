@@ -34,17 +34,45 @@ def draw_pie_chart(path, data):
     plt.show()
 
 
-def get_tweet_sentiment(tweet):
+'''
+The followings are three way to clean a tweet. The sentiment results differ on different topic. 
+'''
+
+
+# delete all punctuation, urls, and meaningless words
+def clean_word_1(tweet):
     sentence = ''
     for word in tweet.split():
-        word = word_filter(word)  # Todo word = word_filter(word, False)
+        word = word_filter(word)
         if len(word) > 0:
             sentence = sentence + ' ' + word
-    # Todo sentence = ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])| (\w +:\ /  \ /  \S +)", " ", tweet).split())
+    return sentence
+
+
+# delete all punctuation and urls, but preserve meaningless words
+def clean_word_2(tweet):
+    sentence = ''
+    for word in tweet.split():
+        word = word_filter(word, False)
+        if len(word) > 0:
+            sentence = sentence + ' ' + word
+    return sentence
+
+
+# delete all punctuation
+def clean_word_3(tweet):
+    sentence = ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])| (\w +:\ /  \ /  \S +)", " ", tweet).split())
+    return sentence
+
+
+def get_tweet_sentiment(tweet):
+    # sentence = clean_word_1(tweet)
+    # sentence = clean_word_2(tweet)
+    sentence = clean_word_3(tweet)
     analysis = TextBlob(sentence)
-#     print('ORIGINAL:', tweet)
-#     print('CLEANED:', sentence)
-#     print(analysis)
+    # print('ORIGINAL:', tweet)
+    # print('CLEANED:', sentence)
+    # print(analysis.sentiment.polarity)
     if analysis.sentiment.polarity > 0:
         return 'positive'
     elif analysis.sentiment.polarity < 0:
@@ -68,6 +96,7 @@ def analyze_data(path, max_num, language='en'):
             except:
                 pass
         attitude = get_tweet_sentiment(str(text))
+        # print('Link to this tweet: https://twitter.com/i/web/status/' + str(tweet['id']) + '\n')
         attitude_count[attitude] += 1
         for word in tweet['text'].split():
             word = word_filter(word)
@@ -82,9 +111,9 @@ def analyze_data(path, max_num, language='en'):
             count = count + 1
             if count == max_num:
                 break
-        print('Word count in',key,'twitters:')
+        print('Word count in', key, 'twitters:')
         print(table, '\n')
     draw_pie_chart(path, [attitude_count['positive'], attitude_count['negative'], attitude_count['neutral']])
 
 
-analyze_data(path='p1-data', max_num=10, language='en')
+analyze_data(path='p4-data', max_num=10, language='en')
