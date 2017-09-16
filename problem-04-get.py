@@ -53,4 +53,9 @@ If you want the results before some time point, assign topic='YOUR_TOPIC until:2
 If you want the results after some time point, assign topic='YOUR_TOPIC since:2017-01-01'.
 Do not forget to change the directory, or your previous results will be mixed with new results.
 '''
-save_search_to_file(topic='nintendo', max_num=2000, directory='p4-data', language='en')
+
+save_search_to_file(topic='nintendo switch', max_num=10000, directory='switch', language='en')
+
+save_search_to_file(topic='ps4', max_num=10000, directory='ps4', language='en')
+
+save_search_to_file(topic='xbox', max_num=10000, directory='xbox', language='en')
